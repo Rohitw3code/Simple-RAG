@@ -13,6 +13,7 @@ import {
   Loader
 } from 'lucide-react';
 import { apiService } from '../services/api';
+import Logo from './Logo';
 
 interface Message {
   id: string;
@@ -174,46 +175,45 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
   const getStatusIcon = () => {
     switch (uploadStatus) {
       case 'uploading':
-        return <Loader className="h-4 w-4 text-blue-400 animate-spin" />;
+        return <Loader className="h-4 w-4 text-green-600 animate-spin" />;
       case 'success':
-        return <CheckCircle className="h-4 w-4 text-green-400" />;
+        return <CheckCircle className="h-4 w-4 text-green-600" />;
       case 'error':
-        return <AlertCircle className="h-4 w-4 text-red-400" />;
+        return <AlertCircle className="h-4 w-4 text-red-500" />;
       default:
-        return <FileText className="h-4 w-4 text-gray-400" />;
+        return <FileText className="h-4 w-4 text-gray-500" />;
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col text-white">
-      {/* Header */}
-      <header className="bg-black/20 backdrop-blur-sm border-b border-white/20 p-4">
+    <div className="h-screen flex flex-col bg-white text-gray-900">
+      {/* Fixed Header */}
+      <header className="flex-shrink-0 bg-white border-b border-gray-200 p-4 shadow-sm">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button
               onClick={onBackToLanding}
-              className="p-2 hover:bg-white/10 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5 text-gray-600" />
             </button>
-            <div className="flex items-center space-x-2">
-              <Bot className="h-6 w-6 text-purple-400" />
-              <span className="text-lg font-semibold">AI PDF Chat</span>
+            <div className="flex items-center space-x-3">
+              <Logo className="h-8 text-gray-900" />
             </div>
           </div>
           
           {uploadedFile && (
-            <div className={`flex items-center space-x-2 rounded-lg px-3 py-2 ${
-              uploadStatus === 'success' ? 'bg-green-500/20' :
-              uploadStatus === 'error' ? 'bg-red-500/20' :
-              uploadStatus === 'uploading' ? 'bg-blue-500/20' :
-              'bg-white/10'
+            <div className={`flex items-center space-x-2 rounded-lg px-3 py-2 border ${
+              uploadStatus === 'success' ? 'bg-green-50 border-green-200' :
+              uploadStatus === 'error' ? 'bg-red-50 border-red-200' :
+              uploadStatus === 'uploading' ? 'bg-blue-50 border-blue-200' :
+              'bg-gray-50 border-gray-200'
             }`}>
               {getStatusIcon()}
-              <span className="text-sm">{uploadedFile.name}</span>
+              <span className="text-sm text-gray-700">{uploadedFile.name}</span>
               <button
                 onClick={removeUploadedFile}
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -224,27 +224,27 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
 
       {/* Error Message */}
       {errorMessage && (
-        <div className="bg-red-500/20 border border-red-500/30 text-red-200 px-4 py-3 mx-4 mt-4 rounded-lg flex items-center space-x-2">
+        <div className="flex-shrink-0 bg-red-50 border border-red-200 text-red-700 px-4 py-3 mx-4 mt-4 rounded-lg flex items-center space-x-2">
           <AlertCircle className="h-5 w-5" />
           <span>{errorMessage}</span>
           <button
             onClick={() => setErrorMessage('')}
-            className="ml-auto text-red-300 hover:text-red-100"
+            className="ml-auto text-red-500 hover:text-red-700"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
       )}
 
-      {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="container mx-auto max-w-4xl">
+      {/* Chat Messages - Scrollable Area */}
+      <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+        <div className="container mx-auto max-w-4xl h-full">
           {messages.length === 0 ? (
-            <div className="text-center py-20">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-12 border border-white/20">
-                <Bot className="h-16 w-16 text-purple-400 mx-auto mb-6" />
-                <h2 className="text-2xl font-bold mb-4">Welcome to AI PDF Chat!</h2>
-                <p className="text-gray-300 mb-8">
+            <div className="h-full flex items-center justify-center">
+              <div className="bg-white rounded-2xl p-12 border border-gray-200 shadow-sm max-w-2xl w-full">
+                <Bot className="h-16 w-16 text-green-600 mx-auto mb-6" />
+                <h2 className="text-2xl font-bold mb-4 text-center text-gray-900">Welcome to AI PDF Chat!</h2>
+                <p className="text-gray-600 mb-8 text-center">
                   Upload a PDF document to start an intelligent conversation powered by OpenAI.
                 </p>
                 
@@ -252,8 +252,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
                 <div
                   className={`border-2 border-dashed rounded-xl p-8 transition-all duration-300 cursor-pointer ${
                     isDragOver 
-                      ? 'border-purple-400 bg-purple-400/10' 
-                      : 'border-white/30 hover:border-white/50 hover:bg-white/5'
+                      ? 'border-green-400 bg-green-50' 
+                      : 'border-gray-300 hover:border-green-400 hover:bg-green-50'
                   }`}
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
@@ -261,14 +261,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
                   onClick={() => fileInputRef.current?.click()}
                 >
                   {isUploading ? (
-                    <Loader className="h-12 w-12 text-purple-400 mx-auto mb-4 animate-spin" />
+                    <Loader className="h-12 w-12 text-green-600 mx-auto mb-4 animate-spin" />
                   ) : (
                     <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   )}
-                  <p className="text-lg font-semibold mb-2">
+                  <p className="text-lg font-semibold mb-2 text-center text-gray-900">
                     {isUploading ? 'Processing PDF...' : 'Drop your PDF here'}
                   </p>
-                  <p className="text-gray-400">
+                  <p className="text-gray-500 text-center">
                     {isUploading ? 'Please wait while we analyze your document' : 'or click to browse files'}
                   </p>
                   <input
@@ -283,32 +283,34 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-6 pb-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
                   className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div className={`flex items-start space-x-3 max-w-2xl ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                       message.sender === 'user' 
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500' 
-                        : 'bg-gradient-to-r from-blue-500 to-teal-500'
+                        ? 'bg-green-600' 
+                        : 'bg-gray-100 border border-gray-200'
                     }`}>
                       {message.sender === 'user' ? (
-                        <User className="h-4 w-4" />
+                        <User className="h-4 w-4 text-white" />
                       ) : (
-                        <Bot className="h-4 w-4" />
+                        <Bot className="h-4 w-4 text-green-600" />
                       )}
                     </div>
                     
                     <div className={`rounded-2xl p-4 ${
                       message.sender === 'user'
-                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
-                        : 'bg-white/10 backdrop-blur-sm border border-white/20'
+                        ? 'bg-green-600 text-white'
+                        : 'bg-white border border-gray-200 shadow-sm'
                     }`}>
                       <p className="leading-relaxed whitespace-pre-wrap">{message.content}</p>
-                      <p className="text-xs opacity-70 mt-2">
+                      <p className={`text-xs mt-2 ${
+                        message.sender === 'user' ? 'text-green-100' : 'text-gray-500'
+                      }`}>
                         {message.timestamp.toLocaleTimeString()}
                       </p>
                     </div>
@@ -318,13 +320,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
               {isSending && (
                 <div className="flex justify-start">
                   <div className="flex items-start space-x-3 max-w-2xl">
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gradient-to-r from-blue-500 to-teal-500">
-                      <Bot className="h-4 w-4" />
+                    <div className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 border border-gray-200">
+                      <Bot className="h-4 w-4 text-green-600" />
                     </div>
-                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-4">
+                    <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-4">
                       <div className="flex items-center space-x-2">
-                        <Loader className="h-4 w-4 animate-spin" />
-                        <span>Thinking...</span>
+                        <Loader className="h-4 w-4 animate-spin text-green-600" />
+                        <span className="text-gray-600">Thinking...</span>
                       </div>
                     </div>
                   </div>
@@ -336,17 +338,17 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
         </div>
       </div>
 
-      {/* Input Area */}
-      <div className="bg-black/20 backdrop-blur-sm border-t border-white/20 p-4">
+      {/* Fixed Input Area */}
+      <div className="flex-shrink-0 bg-white border-t border-gray-200 p-4">
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="p-3 bg-white/10 hover:bg-white/20 rounded-xl transition-colors"
+              className="p-3 bg-gray-100 hover:bg-gray-200 rounded-xl transition-colors flex-shrink-0"
               title="Upload PDF"
               disabled={isUploading}
             >
-              <Paperclip className="h-5 w-5" />
+              <Paperclip className="h-5 w-5 text-gray-600" />
             </button>
             
             <div className="flex-1 relative">
@@ -356,18 +358,18 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ onBackToLanding }) => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder={documentId ? "Ask me anything about your document..." : "Upload a PDF first to start chatting..."}
-                className="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-purple-400 transition-colors placeholder-gray-400"
+                className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 pr-12 focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-200 transition-colors placeholder-gray-500"
                 disabled={!documentId || isSending}
               />
               <button
                 onClick={handleSendMessage}
                 disabled={!inputValue.trim() || !documentId || isSending}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 bg-green-600 hover:bg-green-700 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSending ? (
-                  <Loader className="h-4 w-4 animate-spin" />
+                  <Loader className="h-4 w-4 animate-spin text-white" />
                 ) : (
-                  <Send className="h-4 w-4" />
+                  <Send className="h-4 w-4 text-white" />
                 )}
               </button>
             </div>
