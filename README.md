@@ -15,7 +15,7 @@ A modern, responsive React application for intelligent PDF document conversation
 
 ## 🚀 Live Demo
 
-**Frontend**: [https://pdf-chat-frontend.netlify.app](https://pdf-chat-frontend.netlify.app)
+**Live**: [https://strong-daffodil-011711.netlify.app/](https://strong-daffodil-011711.netlify.app/)
 
 **Backend API**: [https://planetai-dfemcqakf3afhkc8.canadacentral-01.azurewebsites.net](https://planetai-dfemcqakf3afhkc8.canadacentral-01.azurewebsites.net)
 
